@@ -1,0 +1,570 @@
+<!DOCTYPE html><html class="dark" lang="ko" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MNSG | Creator Business Company</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&amp;family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#E30613",
+                        "on-primary": "#FFFFFF",
+                        "surface": "#000000",
+                        "on-surface": "#FFFFFF",
+                        "surface-variant": "#111111",
+                        "on-surface-variant": "#A0A0A0",
+                        "outline": "#333333",
+                        "outline-variant": "#222222",
+                        "background": "#000000",
+                        "on-background": "#FFFFFF",
+                        "surface-container-low": "#0A0A0A",
+                        "surface-container": "#111111",
+                        "surface-container-high": "#1A1A1A",
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Pretendard", "Inter", "sans-serif"],
+                        "headline-lg": ["Pretendard", "Inter", "sans-serif"],
+                        "mono-sm": ["Geist", "monospace"],
+                        "body-lg": ["Pretendard", "Inter", "sans-serif"],
+                        "headline-xl": ["Pretendard", "Inter", "sans-serif"],
+                        "display-lg-mobile": ["Pretendard", "Inter", "sans-serif"],
+                        "body-md": ["Pretendard", "Inter", "sans-serif"],
+                        "label-md": ["Pretendard", "Inter", "sans-serif"]
+                    },
+                    "animation": {
+                        "scroll": "scroll 40s linear infinite",
+                        "grain": "grain 8s steps(10) infinite",
+                        "marquee": "marquee 25s linear infinite"
+                    },
+                    "keyframes": {
+                        "scroll": {
+                            "0%": { "transform": "translateX(0)" },
+                            "100%": { "transform": "translateX(-50%)" }
+                        },
+                        "grain": {
+                            "0%, 100%": { "transform": "translate(0, 0)" },
+                            "10%": { "transform": "translate(-5%, -10%)" },
+                            "20%": { "transform": "translate(-15%, 5%)" },
+                            "30%": { "transform": "translate(7%, -25%)" },
+                            "40%": { "transform": "translate(-5%, 25%)" },
+                            "50%": { "transform": "translate(-15%, 10%)" },
+                            "60%": { "transform": "translate(15%, 0%)" },
+                            "70%": { "transform": "translate(0%, 15%)" },
+                            "80%": { "transform": "translate(3%, 35%)" },
+                            "90%": { "transform": "translate(-10%, 10%)" }
+                        },
+                        "marquee": {
+                            "0%": { "transform": "translateX(0%)" },
+                            "100%": { "transform": "translateX(-100%)" }
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-card {
+            background: #0A0A0A;
+            border: 1px solid #222222;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .bento-card:hover {
+            border-color: #E30613;
+            box-shadow: 0 0 30px rgba(227, 6, 19, 0.1);
+            transform: translateY(-4px);
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hero-gradient {
+            background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.3) 100%);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E30613;
+        }
+        .grain-overlay {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.23, 1, 0.32, 1), transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .gsap-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .word-reveal span {
+            opacity: 0;
+            transform: translateY(20px);
+            display: inline-block;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .word-reveal.active span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .before-after-container:hover .after-image {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        .after-image {
+            clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+            transition: clip-path 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+    </style>
+</head>
+<body class="font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-white/5">
+<div class="flex justify-between items-center w-full px-6 md:px-20 py-6 max-w-[1440px] mx-auto">
+<div class="text-3xl font-black tracking-tighter text-white uppercase">MNSG</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="text-sm uppercase tracking-wider text-gray-400 hover:text-primary transition-colors" href="#about">About</a>
+<a class="text-sm uppercase tracking-wider text-gray-400 hover:text-primary transition-colors" href="#services">What We Do</a>
+<a class="text-sm uppercase tracking-wider text-gray-400 hover:text-primary transition-colors" href="#creators">Creators</a>
+<a class="text-sm uppercase tracking-wider text-gray-400 hover:text-primary transition-colors" href="#contact">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block text-sm uppercase tracking-wider text-white hover:text-primary transition-colors">Login</button>
+<button class="px-6 py-2 border border-white/20 rounded-full text-sm uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300">Join Us</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/20 via-black to-black opacity-50 mix-blend-screen"></div>
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="grain-overlay animate-grain"></div>
+</div>
+<div class="absolute top-[120px] left-0 w-full overflow-hidden border-y border-white/5 py-3 bg-black/30 backdrop-blur-sm z-20">
+<div class="flex whitespace-nowrap animate-marquee">
+<span class="font-mono text-xs text-primary/80 uppercase tracking-widest mx-8">DAEJEON BASED GLOBAL CREATOR GROUP</span>
+<span class="font-mono text-xs text-primary/80 uppercase tracking-widest mx-8">DAEJEON BASED GLOBAL CREATOR GROUP</span>
+<span class="font-mono text-xs text-primary/80 uppercase tracking-widest mx-8">DAEJEON BASED GLOBAL CREATOR GROUP</span>
+<span class="font-mono text-xs text-primary/80 uppercase tracking-widest mx-8">DAEJEON BASED GLOBAL CREATOR GROUP</span>
+<span class="font-mono text-xs text-primary/80 uppercase tracking-widest mx-8">DAEJEON BASED GLOBAL CREATOR GROUP</span>
+</div>
+</div>
+<div class="relative z-10 text-center px-6 md:px-20 max-w-5xl mx-auto mt-20 gsap-reveal active">
+<h1 class="text-5xl md:text-[80px] leading-[1.1] font-extrabold text-white mb-6 uppercase tracking-tighter">
+                Discover Talent.<br>Build Brands.<br><span class="text-primary">Create Business.</span>
+</h1>
+<p class="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
+                MNSG는 잠재력 있는 인재를 발굴하고 콘텐츠, 브랜딩, 마케팅, 커머스를 통해 새로운 가치를 만들어냅니다.
+            </p>
+<div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+<button class="relative w-full md:w-auto px-10 py-4 bg-primary text-white text-sm uppercase tracking-widest rounded-sm transition-all duration-300 hover:bg-red-600">
+                    Become a Creator
+                </button>
+<button class="w-full md:w-auto px-10 py-4 border border-white/20 text-white text-sm uppercase tracking-widest rounded-sm hover:bg-white/10 transition-colors duration-300">
+                    Work With Us
+                </button>
+</div>
+</div>
+</section>
+<!-- Manifesto Section -->
+<section class="py-[200px] bg-black relative overflow-hidden" id="about">
+<div class="relative z-10 px-6 md:px-20 max-w-[1440px] mx-auto text-center">
+<span class="font-mono text-xs text-primary uppercase tracking-widest mb-8 block">Manifesto</span>
+<h2 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight uppercase tracking-tighter word-reveal active" id="manifesto-text">
+<span style="opacity: 1; transform: translateY(0px);" class="">WE</span> <span style="opacity: 1; transform: translateY(0px);" class="">DON'T</span> <span style="opacity: 1; transform: translateY(0px);" class="">MANAGE</span> <span style="opacity: 1; transform: translateY(0px);" class="">ACCOUNTS.</span><br>
+<span class="text-primary" style="opacity: 1; transform: translateY(0px);">WE</span> <span class="text-primary" style="opacity: 1; transform: translateY(0px);">BUILD</span> <span class="text-primary" style="opacity: 1; transform: translateY(0px);">PEOPLE.</span>
+</h2>
+<p class="mt-12 text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed gsap-reveal active">
+            MNSG는 단순한 에이전시를 넘어, 크리에이터가 하나의 비즈니스 모델로 성장할 수 있는 생태계를 구축합니다. 우리는 기술과 예술의 경계에서 데이터를 기반으로 한 정교한 브랜딩과 독보적인 콘텐츠 제작 역량을 통해, 아티스트와 브랜드가 상생하는 미래의 엔터테인먼트 비즈니스를 선도합니다.
+        </p>
+</div>
+</section>
+<!-- Services (Bento Box) -->
+<section class="py-[160px] bg-[#050505]" id="services">
+<div class="px-6 md:px-20 max-w-[1440px] mx-auto">
+<div class="mb-20 text-center gsap-reveal active">
+<span class="font-mono text-xs text-primary uppercase tracking-widest mb-4 block">Expertise</span>
+<h2 class="text-4xl md:text-5xl font-bold text-white uppercase">What We Do</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+<!-- Card 1 -->
+<div class="md:col-span-8 bento-card p-10 flex flex-col justify-between h-[400px] group gsap-reveal relative overflow-hidden active">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700" src="https://lh3.googleusercontent.com/aida/AP1WRLt3E1em9pmgJ56k2xSMjh-uq37aYjyK7IUVdh80W9e3raQEuxc_NjxSCFvcQvVA6RxX8IZTEw1gss_TLyQtukaErTZJDNQwblsUzPruGrNn3Ya-m132I37xk1GWnhJsejtBgKH6Ad1ffjyCg_VGE8AZmBI53PcK85CXmQUtxt2gLqlXT6RjsjuV3rK6ddBVww-i7bQ_b4_KU_LQg_u1nH2JFTDBuTRUkI98BkFqTGATijB-h3T6yF_Oy2X8">
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+</div>
+<div class="relative z-10 flex justify-between items-start">
+<span class="font-mono text-sm text-primary uppercase">01</span>
+<span class="material-symbols-outlined text-4xl text-white/20 group-hover:text-primary transition-colors">diversity_3</span>
+</div>
+<div class="relative z-10">
+<h3 class="text-3xl font-semibold text-white mb-4">Creator Management</h3>
+<p class="text-gray-400 max-w-md">데이터 기반의 매니지먼트와 맞춤형 육성 프로그램을 통해 크리에이터의 지속 가능한 성장을 지원합니다.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="md:col-span-4 bento-card p-10 flex flex-col justify-between h-[400px] group relative overflow-hidden gsap-reveal active">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-700" src="https://lh3.googleusercontent.com/aida/AP1WRLtppLREF1jM94Y5P3sxwozdh0qmpkfuxJfVE6EU1uxhiZtBZFldwunoPD5TGwICmPAbXe1D85vTTP3Nlr1W7TN2tL2L7m20W2_oT8Ah-u8e8xIbwvlhV0G9Ll-McOmKOqthzyQolcRQSI5cW0ugD7ugQLGoKci6HYGU3ooxoCk_gBXubtBU_9t9AGExd5K_dpV9uzelSzF6m2UylEB1X-Rl4Ijt4xl1NV7P1yHAuUAYt2nO9G2U6U_UnC4">
+<div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+</div>
+<div class="relative z-10 flex justify-between items-start">
+<span class="font-mono text-sm text-primary uppercase">02</span>
+<span class="material-symbols-outlined text-4xl text-white/20 group-hover:text-primary transition-colors">auto_awesome</span>
+</div>
+<div class="relative z-10">
+<h3 class="text-3xl font-semibold text-white mb-4">Brand Building</h3>
+<p class="text-gray-400">고유의 서사를 발견하고 시장에서 독보적인 가치를 지닌 브랜드로 구축합니다.</p>
+</div>
+</div>
+<!-- Additional Cards -->
+<div class="md:col-span-4 bento-card p-10 flex flex-col justify-between h-[400px] group gsap-reveal active">
+<div class="flex justify-between items-start">
+<span class="font-mono text-sm text-primary uppercase">03</span>
+<span class="material-symbols-outlined text-4xl text-white/20 group-hover:text-primary transition-colors">movie</span>
+</div>
+<div>
+<h3 class="text-2xl font-semibold text-white mb-4">Content Production</h3>
+<p class="text-gray-400">시각적 미학성과 대중성을 겸비한 하이엔드 콘텐츠를 기획 및 제작합니다.</p>
+</div>
+</div>
+<div class="md:col-span-4 bento-card p-10 flex flex-col justify-between h-[400px] group gsap-reveal active">
+<div class="flex justify-between items-start">
+<span class="font-mono text-sm text-primary uppercase">04</span>
+<span class="material-symbols-outlined text-4xl text-white/20 group-hover:text-primary transition-colors">hub</span>
+</div>
+<div>
+<h3 class="text-2xl font-semibold text-white mb-4">Marketing</h3>
+<p class="text-gray-400">정교한 타겟팅과 창의적인 캠페인을 통해 브랜드의 파급력을 극대화합니다.</p>
+</div>
+</div>
+<div class="md:col-span-4 bento-card p-10 flex flex-col justify-between h-[400px] group gsap-reveal active">
+<div class="flex justify-between items-start">
+<span class="font-mono text-sm text-primary uppercase">05</span>
+<span class="material-symbols-outlined text-4xl text-white/20 group-hover:text-primary transition-colors">code</span>
+</div>
+<div>
+<h3 class="text-2xl font-semibold text-white mb-4">Technology</h3>
+<p class="text-gray-400">웹 3.0, 전용 데이터 애널리틱스 등 차세대 커머스 인프라를 제공합니다.</p>
+</div>
+</div>
+<div class="md:col-span-12 bento-card p-10 flex flex-col justify-center items-center text-center h-[300px] group gsap-reveal border-primary/20 hover:border-primary bg-primary/5 active">
+<h3 class="text-3xl font-bold text-white mb-4">End-to-End Commerce</h3>
+<p class="text-gray-400 max-w-2xl">상품 기획부터 디자인, 생산, 물류, CS까지 브랜드 런칭의 모든 밸류체인을 내재화하여 완벽한 비즈니스 솔루션을 제공합니다.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- The Ecosystem -->
+<section class="py-[160px] bg-black relative overflow-hidden border-y border-white/5" id="ecosystem">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(227,6,19,0.1)_0%,transparent_50%)]"></div>
+<div class="px-6 md:px-20 max-w-[1440px] mx-auto text-center relative z-10">
+<span class="font-mono text-xs text-primary uppercase tracking-widest mb-4 block gsap-reveal active">Structure</span>
+<h2 class="text-4xl md:text-5xl font-bold text-white uppercase mb-20 gsap-reveal active">The Ecosystem</h2>
+<div class="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24 gsap-reveal active">
+<div class="text-center">
+<div class="w-32 h-32 rounded-full border border-white/20 flex items-center justify-center mb-6 mx-auto bg-black shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+<span class="text-xl font-bold text-white">Talent</span>
+</div>
+</div>
+<div class="hidden md:block w-24 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+<div class="text-center relative">
+<div class="w-48 h-48 rounded-full border-2 border-primary flex items-center justify-center mb-6 mx-auto bg-primary/10 shadow-[0_0_50px_rgba(227,6,19,0.2)]">
+<span class="text-3xl font-black text-white uppercase tracking-tighter">MNSG</span>
+</div>
+</div>
+<div class="hidden md:block w-24 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+<div class="text-center">
+<div class="w-32 h-32 rounded-full border border-white/20 flex items-center justify-center mb-6 mx-auto bg-black shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+<span class="text-xl font-bold text-white">Brand</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Creator Network -->
+<section class="py-[160px] bg-black" id="creators">
+<div class="px-6 md:px-20 max-w-[1440px] mx-auto">
+<div class="flex justify-between items-end mb-20 gsap-reveal active">
+<div>
+<span class="font-mono text-xs text-primary uppercase tracking-widest mb-4 block">Talent</span>
+<h2 class="text-4xl md:text-5xl font-bold text-white uppercase">Creator Network</h2>
+</div>
+<a class="hidden md:flex items-center gap-2 text-sm uppercase tracking-wider text-gray-400 hover:text-primary transition-colors" href="#">
+                    View All Creators <span class="material-symbols-outlined">trending_flat</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Creator 1 -->
+<div class="group cursor-pointer gsap-reveal active">
+<div class="aspect-[4/5] overflow-hidden mb-6 bg-[#111] relative">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRq37D5WYEhNBSxQEd16uHEMR9fPr1S48OvbDf92SIPGhFawiSG9Uikady0UfHYEWcquGBu2lHRht_-VlHbQaT0QD05G-6ZpEHVhyBHvMQEd26q7XBDEhQatZofw4-8wDNt-q2djL0vxuOnCwHNEhQedCwglR0p0duS2ru8o_fXaF99FH8Dn8mb_nQakUiTBwXxaJCiMbZivkTBmNS9Rt6fuk7sgd4wtj07Nu-eWIhN37h7zc7h2G9b6UWvR-DIvTV08JEbXdhH9_U">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+</div>
+<h4 class="text-2xl font-semibold text-white mb-1">딸2</h4>
+<p class="font-mono text-xs text-gray-400">Fashion Disruptor / 1.2M Followers</p>
+</div>
+<!-- Creator 2 -->
+<div class="group cursor-pointer gsap-reveal active" style="transition-delay: 100ms;">
+<div class="aspect-[4/5] overflow-hidden mb-6 bg-[#111] relative">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" src="https://lh3.googleusercontent.com/aida/AP1WRLt5JXq2vDblpmoqEZe9RDBzGF89N34S8xy_4m9j9_YgI0M3ThqaT6rrP0PUJkTUB_qGNE0VVSwL0WokZ88VBapqeApVclNDZzMqlDU4GhnPuPQ_UjsXUR6lrmFsIxrtAdufo2kVvZ9zrHJkizQ4oKE-uc8pDZu3zOIEhvha2SD5EzpOXc3VFobTavzGB0ibQSKPuG0DdW5_DeVVU1PhQqXVLQ_HUMobThpNP5yYuKp-eahG-mbk7QFCIWs">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+</div>
+<h4 class="text-2xl font-semibold text-white mb-1">봉빠</h4>
+<p class="font-mono text-xs text-gray-400">Virtual Artist / 850K Followers</p>
+</div>
+<!-- Creator 3 -->
+<div class="group cursor-pointer gsap-reveal active" style="transition-delay: 200ms;">
+<div class="aspect-[4/5] overflow-hidden mb-6 bg-[#111] relative">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0w8BcXcvWrLsl-TZHifLcIlwrWAxOGjGHT7tt1JG21uuHqRDrhg4eYmM_y0T2rYP7dgXcsZxocRTnddThYjIirVfRuj5jzP7AEpidskQMdPhGQq9o47tgxeBKv5GgM-2a6mVZtCyDO8Vis1Mq6suMKPa_e5j5sV8LynRXQPPiJy5SYC5ypjbsD99ERlGdGqJVLUfsaL7w7woU8vNQzpb-jGNHwTBzls1gHtsOaVhNxxhF2PAIV0M6tHhZ1rQtYNH3REVR-_3O-itr">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+</div>
+<h4 class="text-2xl font-semibold text-white mb-1">딸빠</h4>
+<p class="font-mono text-xs text-gray-400">Street Culture / 2.1M Followers</p>
+</div>
+<!-- Creator 4 -->
+<div class="group cursor-pointer gsap-reveal active" style="transition-delay: 300ms;">
+<div class="aspect-[4/5] overflow-hidden mb-6 bg-[#111] relative">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAomJFQa0ppIyI2FbKaM_9E4az1ETI17aP5dBXUoRRKRmoPIY4Q9b6V5VOQlhjnmG3_XH-_q2XvViDogQSQ5Wwie8756y7vEZYC4Ks-_It4iZ6Es09Ib0YsuR3Uq9V2Q2cBYb3UMTum6FO3mZlAtr2U5r40Q48jCrbNPI31wCk3lWjNmoJcllLwFIiQ144qn9wKXYCPUgx4Ug6YmrKBFTd9oNltopvwBUSRy1xbuj_hoDQaUq0rmp0CkHsOpMCR42RPeZX8koSdph9A">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+</div>
+<h4 class="text-2xl font-semibold text-white mb-1">ㅁㄴㅇㄹ</h4>
+<p class="font-mono text-xs text-gray-400">Design &amp; Arch / 540K Followers</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Success Stories (Before/After) -->
+<section class="py-[160px] bg-[#050505] border-t border-white/5">
+<div class="px-6 md:px-20 max-w-[1440px] mx-auto">
+<div class="mb-20 text-center gsap-reveal active">
+<span class="font-mono text-xs text-primary uppercase tracking-widest mb-4 block">Impact</span>
+<h2 class="text-4xl md:text-5xl font-bold text-white uppercase">Success Stories</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center gsap-reveal active">
+<div class="space-y-8">
+<h3 class="text-4xl font-bold text-white">'A' Creator Brand Launch</h3>
+<p class="text-lg text-gray-400 leading-relaxed">론칭 3개월 만에 매출 500% 성장. 크리에이터의 팬덤을 충성도 높은 고객군으로 전환시키는 MNSG만의 솔루션 적용 사례입니다.</p>
+<div class="grid grid-cols-3 gap-8 pt-8 border-t border-white/10">
+<div>
+<p class="font-mono text-xs text-gray-500 uppercase mb-2">ROI</p>
+<p class="text-3xl font-bold text-primary">512%</p>
+</div>
+<div>
+<p class="font-mono text-xs text-gray-500 uppercase mb-2">CTR</p>
+<p class="text-3xl font-bold text-primary">8.4%</p>
+</div>
+<div>
+<p class="font-mono text-xs text-gray-500 uppercase mb-2">Followers</p>
+<p class="text-3xl font-bold text-primary">+120K</p>
+</div>
+</div>
+</div>
+<div class="relative aspect-video overflow-hidden rounded-sm before-after-container group cursor-ew-resize">
+<img class="absolute inset-0 w-full h-full object-cover grayscale opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHSxEbKjB6antxRi8m4YGMmw0JUBoUXL-CvckEAQ6-Ym8nn10wrevie026PJ_WEdTL_HNvQoAMAR-kh9t30WP-poEtIVtMbjKjen1BTWln6IAiPgbHr3HisvubQEV21wbGIagxNnxAjFuOiqxG5oOG7vSLn2AMUdm_OLsgnzFzNWCSMdIR6bPxxLPMms8xAUzrCUJoVybn6w6oHb8fMNmdomxx_BdIYqVYrO_JKkB-zb2mG18g8lCO8038CgS6KB64g47RCeitWEES">
+<div class="absolute top-4 left-4 bg-black/50 backdrop-blur-md px-3 py-1 font-mono text-xs text-white z-10 border border-white/10">BEFORE</div>
+<img class="absolute inset-0 w-full h-full object-cover after-image" src="https://lh3.googleusercontent.com/aida/AP1WRLtppLREF1jM94Y5P3sxwozdh0qmpkfuxJfVE6EU1uxhiZtBZFldwunoPD5TGwICmPAbXe1D85vTTP3Nlr1W7TN2tL2L7m20W2_oT8Ah-u8e8xIbwvlhV0G9Ll-McOmKOqthzyQolcRQSI5cW0ugD7ugQLGoKci6HYGU3ooxoCk_gBXubtBU_9t9AGExd5K_dpV9uzelSzF6m2UylEB1X-Rl4Ijt4xl1NV7P1yHAuUAYt2nO9G2U6U_UnC4">
+<div class="absolute top-4 right-4 bg-primary px-3 py-1 font-mono text-xs text-white z-10 opacity-0 group-hover:opacity-100 transition-opacity">AFTER</div>
+<div class="absolute inset-y-0 left-1/2 w-[2px] bg-white/50 group-hover:bg-primary group-hover:left-full transition-all duration-1000 ease-in-out shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Daejeon -->
+<section class="py-[160px] bg-black relative overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black z-10"></div>
+<img class="w-full h-full object-cover grayscale opacity-20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHSxEbKjB6antxRi8m4YGMmw0JUBoUXL-CvckEAQ6-Ym8nn10wrevie026PJ_WEdTL_HNvQoAMAR-kh9t30WP-poEtIVtMbjKjen1BTWln6IAiPgbHr3HisvubQEV21wbGIagxNnxAjFuOiqxG5oOG7vSLn2AMUdm_OLsgnzFzNWCSMdIR6bPxxLPMms8xAUzrCUJoVybn6w6oHb8fMNmdomxx_BdIYqVYrO_JKkB-zb2mG18g8lCO8038CgS6KB64g47RCeitWEES"> <!-- Placeholder for city night view -->
+</div>
+<div class="relative z-20 px-6 md:px-20 max-w-[1440px] mx-auto text-center gsap-reveal active">
+<span class="font-mono text-xs text-primary uppercase tracking-widest mb-6 block">Location</span>
+<h2 class="text-4xl md:text-6xl font-bold text-white uppercase tracking-tighter mb-8">The Next Creator City<br><span class="text-primary">Daejeon</span></h2>
+<p class="text-lg text-gray-400 max-w-2xl mx-auto mb-12">
+            수도권에 집중된 인프라를 넘어, 대한민국의 중심 대전에서 새로운 크리에이터 생태계를 구축합니다. 로컬의 잠재력과 글로벌 네트워크를 연결하는 허브.
+        </p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left max-w-4xl mx-auto">
+<div class="p-8 border border-white/10 bg-black/50 backdrop-blur-sm">
+<span class="material-symbols-outlined text-3xl text-primary mb-4 block">location_on</span>
+<h4 class="text-xl font-bold text-white mb-2">Central Hub</h4>
+<p class="text-sm text-gray-400">전국 어디서나 접근 가능한 지리적 이점</p>
+</div>
+<div class="p-8 border border-white/10 bg-black/50 backdrop-blur-sm">
+<span class="material-symbols-outlined text-3xl text-primary mb-4 block">biotech</span>
+<h4 class="text-xl font-bold text-white mb-2">Tech Infrastructure</h4>
+<p class="text-sm text-gray-400">과학도시의 인프라를 활용한 기술 접목</p>
+</div>
+<div class="p-8 border border-white/10 bg-black/50 backdrop-blur-sm">
+<span class="material-symbols-outlined text-3xl text-primary mb-4 block">groups</span>
+<h4 class="text-xl font-bold text-white mb-2">Local Talent</h4>
+<p class="text-sm text-gray-400">지역 기반의 숨겨진 원석 발굴 및 육성</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Partners -->
+<section class="py-24 border-y border-white/5 bg-[#050505]">
+<div class="px-6 md:px-20 max-w-[1440px] mx-auto overflow-hidden">
+<div class="flex justify-around items-center opacity-20 grayscale gap-12 md:gap-24 animate-scroll whitespace-nowrap">
+<span class="text-2xl font-black tracking-widest uppercase">PARTNER_A</span>
+<span class="text-2xl font-black tracking-widest uppercase">PARTNER_B</span>
+<span class="text-2xl font-black tracking-widest uppercase">PARTNER_C</span>
+<span class="text-2xl font-black tracking-widest uppercase">PARTNER_D</span>
+<span class="text-2xl font-black tracking-widest uppercase">PARTNER_E</span>
+<span class="text-2xl font-black tracking-widest uppercase">PARTNER_F</span>
+</div>
+</div>
+</section>
+<!-- Recruitment Section -->
+<section class="relative py-[200px] overflow-hidden bg-primary/5 border-b border-white/5">
+<div class="relative z-10 px-6 md:px-20 text-center max-w-4xl mx-auto gsap-reveal active">
+<h2 class="text-4xl md:text-6xl font-extrabold text-white mb-8 uppercase tracking-tighter">다음 세대의<br>크리에이터를 찾습니다.</h2>
+<p class="text-lg text-gray-400 mb-12">당신의 가능성을 브랜드로 만드세요. MNSG와 함께 새로운 시장을 열어갈 인재를 기다립니다.</p>
+<button class="px-12 py-5 bg-white text-black text-sm uppercase tracking-widest font-bold hover:bg-primary hover:text-white transition-colors duration-300">
+                Apply Now
+            </button>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="py-[160px] bg-black" id="contact">
+<div class="px-6 md:px-20 max-w-[1440px] mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 gsap-reveal active">
+<div>
+<span class="font-mono text-xs text-primary uppercase tracking-widest mb-4 block">Connection</span>
+<h2 class="text-4xl md:text-5xl font-bold text-white mb-10 uppercase">Get in Touch</h2>
+<div class="space-y-6 text-gray-400 text-lg">
+<p class="flex items-center gap-4 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary">mail</span> haildrop99@gmail.com</p>
+<p class="flex items-center gap-4 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary">call</span> +82 (0)42 123 4567
+                        </p>
+<p class="flex items-center gap-4 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary">location_on</span> Daejeon, South Korea
+                        </p>
+</div>
+<div class="mt-12 flex gap-4">
+<a class="w-12 h-12 border border-white/20 flex items-center justify-center rounded-full hover:bg-white hover:text-black transition-all text-sm" href="#">IG</a>
+<a class="w-12 h-12 border border-white/20 flex items-center justify-center rounded-full hover:bg-white hover:text-black transition-all text-sm" href="#">YT</a>
+<a class="w-12 h-12 border border-white/20 flex items-center justify-center rounded-full hover:bg-white hover:text-black transition-all text-sm" href="#">LI</a>
+</div>
+</div>
+<div>
+<form class="space-y-8">
+<div>
+<input class="w-full bg-transparent border-0 border-b border-white/20 py-4 px-0 focus:ring-0 focus:border-primary text-white text-sm transition-all placeholder:text-gray-600" placeholder="NAME" type="text">
+</div>
+<div>
+<input class="w-full bg-transparent border-0 border-b border-white/20 py-4 px-0 focus:ring-0 focus:border-primary text-white text-sm transition-all placeholder:text-gray-600" placeholder="EMAIL" type="email">
+</div>
+<div>
+<textarea class="w-full bg-transparent border-0 border-b border-white/20 py-4 px-0 focus:ring-0 focus:border-primary text-white text-sm transition-all placeholder:text-gray-600 resize-none" placeholder="MESSAGE" rows="4"></textarea>
+</div>
+<button class="w-full py-4 border border-white/20 text-white text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all" type="submit">Send Message</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-black border-t border-white/10 py-20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-6 md:px-20 max-w-[1440px] mx-auto">
+<div class="md:col-span-1">
+<div class="text-3xl font-black text-white mb-6 uppercase tracking-tighter">MNSG</div>
+<p class="text-sm text-gray-500">© 2026 MNSG Creator Business Co. All rights reserved.</p>
+</div>
+<div class="md:col-span-1 space-y-4">
+<h5 class="text-xs text-primary uppercase tracking-widest mb-6">Company</h5>
+<ul class="space-y-3">
+<li class=""><a class="text-sm text-gray-400 hover:text-white transition-colors" href="#">About</a></li>
+<li class=""><a class="text-sm text-gray-400 hover:text-white transition-colors" href="#">What We Do</a></li>
+<li class=""><a class="text-sm text-gray-400 hover:text-white transition-colors" href="#">Creators</a></li>
+<li class=""><a class="text-sm text-gray-400 hover:text-white transition-colors" href="#">Investor Relations</a></li>
+</ul>
+</div>
+<div class="md:col-span-1 space-y-4">
+<h5 class="text-xs text-primary uppercase tracking-widest mb-6">Support</h5>
+<ul class="space-y-3">
+<li class=""><a class="text-sm text-gray-400 hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+<li class=""><a class="text-sm text-gray-400 hover:text-white transition-colors" href="#">Terms of Service</a></li>
+<li class=""><a class="text-sm text-gray-400 hover:text-white transition-colors" href="#">Careers</a></li>
+</ul>
+</div>
+<div class="md:col-span-1">
+<h5 class="text-xs text-primary uppercase tracking-widest mb-6">Subscribe</h5>
+<div class="flex">
+<input class="bg-[#111] border border-white/10 py-3 px-4 focus:outline-none focus:border-primary w-full text-white text-sm" placeholder="Email Address" type="email">
+<button class="bg-white text-black px-6 py-3 text-sm uppercase font-bold hover:bg-primary hover:text-white transition-colors">→</button>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Smooth scroll for anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // GSAP-like reveal animations using Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    if (entry.target.classList.contains('word-reveal')) {
+                        const spans = entry.target.querySelectorAll('span');
+                        spans.forEach((span, index) => {
+                            setTimeout(() => {
+                                span.style.opacity = '1';
+                                span.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.gsap-reveal, .word-reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+
+</body></html>
