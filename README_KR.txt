@@ -16,3 +16,4 @@ Cloudflare Workers & Pages에서 설정:
 주의:
 - DESIGN.md 또는 txt 파일만 업로드하면 사이트가 열리지 않습니다.
 - 반드시 dist/index.html 파일이 있어야 합니다.
+*test
